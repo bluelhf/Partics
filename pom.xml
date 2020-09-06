@@ -39,6 +39,12 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.moderocky.mask</pattern>
+                                    <shadedPattern>your.package.here.mask</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
@@ -62,6 +68,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>pan-repo</id>
+            <url>https://gitlab.com/api/v4/projects/18568066/packages/maven</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -76,5 +86,12 @@
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.moderocky</groupId>
+            <artifactId>Mask-Bukkit</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>

@@ -4,11 +4,3 @@ main: io.github.bluelhf.partics.Partics
 api-version: 1.16
 authors: [bluelhf]
 description: A plugin for creating repeating particle effects with ease!
-
-commands:
-  partics:
-    description: The main command for Partics.
-    permission: partics.use
-    permission-message: §cNo permission.
-    aliases: [pcs, partic]
-    usage: §6/partics create §7<particle> [<delta>] [<speed>] [count] [force]
