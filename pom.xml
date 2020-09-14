@@ -41,8 +41,8 @@
                         <configuration>
                             <relocations>
                                 <relocation>
-                                    <pattern>com.moderocky.mask</pattern>
-                                    <shadedPattern>your.package.here.mask</shadedPattern>
+                                    <pattern>com.moderocky.mask.</pattern>
+                                    <shadedPattern>io.github.bluelhf.partics.mask.</shadedPattern>
                                 </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -92,6 +92,27 @@
             <version>3.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.moderocky</groupId>
+            <artifactId>Commander</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${user.home}\GitLab\Mask\Commander\target\Commander.jar</systemPath>
+        </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.moderocky</groupId>
+                <artifactId>Mask-Bukkit</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.moderocky</groupId>
+                        <artifactId>Commander</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

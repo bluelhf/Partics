@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * This utility class is non-static because we wish to precompute the MCN-Particle mappings. It can be acquired via Partics#getPUtil
@@ -15,11 +16,13 @@ import java.util.Optional;
 public class ParticleUtil {
     private HashMap<String, Particle> mcnParticleMap = new HashMap<>();
     public ParticleUtil() {
-        for (Particle particle : Particle.values()) {
-            try {
-                // Get CraftParticle class and instance
-                Class<?> craftParticleClass = NMSUtils.cbClass("CraftParticle");
-                Object craftParticle = craftParticleClass.cast(particle);
+        try {
+            Class<?> craftParticleClass = NMSUtils.cbClass("CraftParticle");
+            for (Particle particle : Particle.values()) {
+                // Get CraftParticle instance
+                Field enumField = craftParticleClass.getDeclaredField(particle.name());
+                enumField.setAccessible(true);
+                Object craftParticle = enumField.get(null);
 
                 // Get CraftParticle#minecraftKey
                 Field minecraftKeyField = craftParticleClass.getDeclaredField("minecraftKey");
@@ -34,12 +37,16 @@ public class ParticleUtil {
                 String mcn = (String) getKeyMethod.invoke(minecraftKey);
 
                 mcnParticleMap.put(mcn, particle);
-
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | NullPointerException e) {
-                System.out.println("[Partics] An error occurred while trying to register MCN<->Bukkit map!");
-                e.printStackTrace();
             }
+        } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | NullPointerException e) {
+            System.out.println("[Partics] An error occurred while trying to register MCN<->Bukkit map!");
+            e.printStackTrace();
         }
+
+    }
+
+    public Set<String> getMCNs() {
+        return mcnParticleMap.keySet();
     }
 
     public Optional<Particle> fromMCN(String mcn) {
